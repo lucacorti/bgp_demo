@@ -84,8 +84,6 @@ defmodule BGPDemoWeb.BGP.IndexLive do
     source = to_string(BGP.Server.get_config(server)[:bgp_id])
     target = to_string(peer)
 
-    IO.inspect([source, target])
-
     option =
       if source != target do
         update_in(socket.assigns.option, [:series, Access.at(0), :edges], fn edges ->
