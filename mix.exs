@@ -56,7 +56,10 @@ defmodule BGPDemo.MixProject do
       {:dns_cluster, "~> 0.1.1"},
       {:bandit, "~> 1.2"},
       {:req, "~> 0.5"},
-      {:bgp, path: "../bgp"}
+      {:bgp, path: "../bgp"},
+      {:credo, "~> 1.0", only: :dev, runtime: false},
+      {:dialyxir, "~> 1.0", only: :dev, runtime: false},
+      {:ex_doc, "~> 0.26", only: :dev, runtime: false}
     ]
   end
 

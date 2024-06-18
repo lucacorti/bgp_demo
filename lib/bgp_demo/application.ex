@@ -12,11 +12,7 @@ defmodule BGPDemo.Application do
       {DNSCluster, query: Application.get_env(:bgp_demo, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: BGPDemo.PubSub},
       {Finch, name: BGPDemo.Finch},
-      BGPDemoWeb.Endpoint,
-      {BGP.Server, BGPDemo.ASN64496_1},
-      {BGP.Server, BGPDemo.ASN64496_2},
-      {BGP.Server, BGPDemo.ASN65536_1},
-      {BGP.Server, BGPDemo.ASN65536_2}
+      BGPDemoWeb.Endpoint
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

@@ -1,6 +1,6 @@
 import Config
 
-config :bgp_demo, BGPDemo.ASN65536_1,
+config :bgp_demo, BGPDemo.ASN65536A,
   asn: 65_536,
   bgp_id: "172.16.1.3",
   networks: ["12.12.0.0/20"],
@@ -11,25 +11,25 @@ config :bgp_demo, BGPDemo.ASN65536_1,
       bgp_id: "172.16.1.2",
       host: "172.16.1.2",
       transport: BGP.Server.Session.Transport.Process,
-      transport_opts: [server: BGPDemo.ASN65536_2]
+      transport_opts: [server: BGPDemo.ASN65536B]
     ],
     [
       asn: 64_496,
       bgp_id: "172.16.1.4",
       host: "172.16.1.4",
       transport: BGP.Server.Session.Transport.Process,
-      transport_opts: [server: BGPDemo.ASN64496_1]
+      transport_opts: [server: BGPDemo.ASN64496A]
     ],
     [
       asn: 64_496,
       bgp_id: "172.16.1.5",
       host: "172.16.1.5",
       transport: BGP.Server.Session.Transport.Process,
-      transport_opts: [server: BGPDemo.ASN64496_2]
+      transport_opts: [server: BGPDemo.ASN64496B]
     ]
   ]
 
-config :bgp_demo, BGPDemo.ASN65536_2,
+config :bgp_demo, BGPDemo.ASN65536B,
   asn: 65_536,
   bgp_id: "172.16.1.2",
   networks: ["12.12.0.0/20"],
@@ -40,25 +40,25 @@ config :bgp_demo, BGPDemo.ASN65536_2,
       bgp_id: "172.16.1.3",
       host: "172.16.1.3",
       transport: BGP.Server.Session.Transport.Process,
-      transport_opts: [server: BGPDemo.ASN65536_2]
+      transport_opts: [server: BGPDemo.ASN65536B]
     ],
     [
       asn: 64_496,
       bgp_id: "172.16.1.4",
       host: "172.16.1.4",
       transport: BGP.Server.Session.Transport.Process,
-      transport_opts: [server: BGPDemo.ASN64496_1]
+      transport_opts: [server: BGPDemo.ASN64496A]
     ],
     [
       asn: 64_496,
       bgp_id: "172.16.1.5",
       host: "172.16.1.5",
       transport: BGP.Server.Session.Transport.Process,
-      transport_opts: [server: BGPDemo.ASN64496_2]
+      transport_opts: [server: BGPDemo.ASN64496B]
     ]
   ]
 
-config :bgp_demo, BGPDemo.ASN64496_1,
+config :bgp_demo, BGPDemo.ASN64496A,
   asn: 64_496,
   bgp_id: "172.16.1.4",
   networks: ["13.12.0.0/20"],
@@ -69,25 +69,25 @@ config :bgp_demo, BGPDemo.ASN64496_1,
       bgp_id: "172.16.1.2",
       host: "172.16.1.2",
       transport: BGP.Server.Session.Transport.Process,
-      transport_opts: [server: BGPDemo.ASN65536_1]
+      transport_opts: [server: BGPDemo.ASN65536A]
     ],
     [
       asn: 65_536,
       bgp_id: "172.16.1.3",
       host: "172.16.1.3",
       transport: BGP.Server.Session.Transport.Process,
-      transport_opts: [server: BGPDemo.ASN65536_2]
+      transport_opts: [server: BGPDemo.ASN65536B]
     ],
     [
       asn: 64_496,
       bgp_id: "172.16.1.5",
       host: "172.16.1.5",
       transport: BGP.Server.Session.Transport.Process,
-      transport_opts: [server: BGPDemo.ASN64496_2]
+      transport_opts: [server: BGPDemo.ASN64496B]
     ]
   ]
 
-config :bgp_demo, BGPDemo.ASN64496_2,
+config :bgp_demo, BGPDemo.ASN64496B,
   asn: 64_496,
   bgp_id: "172.16.1.5",
   networks: ["13.12.0.0/20"],
@@ -98,21 +98,21 @@ config :bgp_demo, BGPDemo.ASN64496_2,
       bgp_id: "172.16.1.2",
       host: "172.16.1.2",
       transport: BGP.Server.Session.Transport.Process,
-      transport_opts: [server: BGPDemo.ASN65536_1]
+      transport_opts: [server: BGPDemo.ASN65536A]
     ],
     [
       asn: 65_536,
       bgp_id: "172.16.1.3",
       host: "172.16.1.3",
       transport: BGP.Server.Session.Transport.Process,
-      transport_opts: [server: BGPDemo.ASN65536_2]
+      transport_opts: [server: BGPDemo.ASN65536B]
     ],
     [
       asn: 64_496,
       bgp_id: "172.16.1.4",
       host: "172.16.1.4",
       transport: BGP.Server.Session.Transport.Process,
-      transport_opts: [server: BGPDemo.ASN64496_1]
+      transport_opts: [server: BGPDemo.ASN64496A]
     ]
   ]
 

@@ -1,4 +1,5 @@
 defmodule BGPDemoWeb.BGP.IndexLive do
+  require Logger
   use BGPDemoWeb, :live_view
 
   @impl Phoenix.LiveView
@@ -13,16 +14,23 @@ defmodule BGPDemoWeb.BGP.IndexLive do
 
   @impl Phoenix.LiveView
   def mount(_params, _session, socket) do
-    :telemetry.attach(
-      "bgp-looking-glass",
-      [:bgp, :session, :state],
-      &__MODULE__.telemetry_handler/4,
-      %{dest: self()}
-    )
+    if connected?(socket) do
+      :telemetry.attach(
+        "bgp-looking-glass",
+        [:bgp, :session, :state],
+        &__MODULE__.telemetry_handler/4,
+        %{dest: self()}
+      )
+
+      BGP.Server.start_link(BGPDemo.ASN64496A)
+      BGP.Server.start_link(BGPDemo.ASN64496B)
+      BGP.Server.start_link(BGPDemo.ASN65536A)
+      BGP.Server.start_link(BGPDemo.ASN65536B)
+    end
 
     servers =
       Enum.map(
-        [BGPDemo.ASN64496_1, BGPDemo.ASN64496_2, BGPDemo.ASN65536_1, BGPDemo.ASN65536_2],
+        [BGPDemo.ASN64496A, BGPDemo.ASN64496B, BGPDemo.ASN65536A, BGPDemo.ASN65536B],
         &BGP.Server.get_config/1
       )
 
