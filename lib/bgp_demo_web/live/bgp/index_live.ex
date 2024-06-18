@@ -54,7 +54,7 @@ defmodule BGPDemoWeb.BGP.IndexLive do
                   id: to_string(server[:bgp_id]),
                   name: to_string(server[:bgp_id]),
                   value: server[:server] |> Module.split() |> List.last(),
-                  symbolSize: 10
+                  symbolSize: 5
                 }
               end),
             edges: [],
