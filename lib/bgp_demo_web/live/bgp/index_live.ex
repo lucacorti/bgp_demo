@@ -101,7 +101,7 @@ defmodule BGPDemoWeb.BGP.IndexLive do
             target: target,
             value: state |> to_string() |> String.upcase(),
             label: %{show: true},
-            lineStyle: %{type: type}
+            lineStyle: %{type: type, width: 2}
           }
           | Enum.reduce(edges, [], fn
               %{source: ^source, target: ^target}, acc -> acc
