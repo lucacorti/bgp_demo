@@ -20,7 +20,7 @@ defmodule BGPDemoWeb.BGP.IndexLive do
 
     if connected?(socket) do
       :telemetry.attach(
-        "bgp-looking-glass",
+        "bgp-simulation",
         [:bgp, :session, :state],
         &__MODULE__.telemetry_handler/4,
         %{dest: self()}

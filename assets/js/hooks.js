@@ -14,7 +14,6 @@ hooks.Chart = {
   updated() {
     selector = "#" + this.el.id;
     option = JSON.parse(this.el.querySelector(selector + "-data").textContent);
-    console.log(option);
     this.chart.setOption(option);
   },
 };
