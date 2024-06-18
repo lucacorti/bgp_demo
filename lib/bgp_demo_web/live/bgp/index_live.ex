@@ -2,6 +2,8 @@ defmodule BGPDemoWeb.BGP.IndexLive do
   require Logger
   use BGPDemoWeb, :live_view
 
+  @servers [BGPDemo.ASN64496A, BGPDemo.ASN64496B, BGPDemo.ASN65536A, BGPDemo.ASN65536B]
+
   @impl Phoenix.LiveView
   def render(assigns) do
     ~H"""
@@ -14,11 +16,7 @@ defmodule BGPDemoWeb.BGP.IndexLive do
 
   @impl Phoenix.LiveView
   def mount(_params, _session, socket) do
-    servers =
-      Enum.map(
-        [BGPDemo.ASN64496A, BGPDemo.ASN64496B, BGPDemo.ASN65536A, BGPDemo.ASN65536B],
-        &BGP.Server.get_config/1
-      )
+    servers = Enum.map(@servers, &BGP.Server.get_config/1)
 
     if connected?(socket) do
       :telemetry.attach(
@@ -41,8 +39,7 @@ defmodule BGPDemoWeb.BGP.IndexLive do
         tooltip: %{},
         legend: [
           %{
-            # selectedMode: "single",
-            data: Enum.map(servers, &to_string(&1[:asn])) |> Enum.uniq()
+            data: Enum.map(servers, &to_string(&1[:asn])) |> Enum.uniq() |> Enum.map(&%{name: &1})
           }
         ],
         series: [
@@ -50,7 +47,7 @@ defmodule BGPDemoWeb.BGP.IndexLive do
             name: "BGP",
             type: "graph",
             layout: "force",
-            data:
+            nodes:
               Enum.map(servers, fn server ->
                 %{
                   category: to_string(server[:asn]),
@@ -89,6 +86,13 @@ defmodule BGPDemoWeb.BGP.IndexLive do
     source = to_string(BGP.Server.get_config(server)[:bgp_id])
     target = to_string(peer)
 
+    type =
+      case state do
+        :idle -> :dotted
+        :established -> :solid
+        _state -> :dashed
+      end
+
     option =
       update_in(socket.assigns.option, [:series, Access.at(0), :edges], fn edges ->
         [
@@ -96,7 +100,8 @@ defmodule BGPDemoWeb.BGP.IndexLive do
             source: source,
             target: target,
             value: state |> to_string() |> String.upcase(),
-            label: %{show: true}
+            label: %{show: true},
+            lineStyle: %{type: type}
           }
           | Enum.reduce(edges, [], fn
               %{source: ^source, target: ^target}, acc -> acc
