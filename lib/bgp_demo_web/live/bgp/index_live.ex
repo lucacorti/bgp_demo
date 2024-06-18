@@ -14,6 +14,12 @@ defmodule BGPDemoWeb.BGP.IndexLive do
 
   @impl Phoenix.LiveView
   def mount(_params, _session, socket) do
+    servers =
+      Enum.map(
+        [BGPDemo.ASN64496A, BGPDemo.ASN64496B, BGPDemo.ASN65536A, BGPDemo.ASN65536B],
+        &BGP.Server.get_config/1
+      )
+
     if connected?(socket) do
       :telemetry.attach(
         "bgp-looking-glass",
@@ -22,17 +28,8 @@ defmodule BGPDemoWeb.BGP.IndexLive do
         %{dest: self()}
       )
 
-      BGP.Server.start_link(BGPDemo.ASN64496A)
-      BGP.Server.start_link(BGPDemo.ASN64496B)
-      BGP.Server.start_link(BGPDemo.ASN65536A)
-      BGP.Server.start_link(BGPDemo.ASN65536B)
+      for server <- servers, do: BGP.Server.start_link(server[:server])
     end
-
-    servers =
-      Enum.map(
-        [BGPDemo.ASN64496A, BGPDemo.ASN64496B, BGPDemo.ASN65536A, BGPDemo.ASN65536B],
-        &BGP.Server.get_config/1
-      )
 
     option =
       %{
@@ -59,7 +56,7 @@ defmodule BGPDemoWeb.BGP.IndexLive do
                   category: to_string(server[:asn]),
                   id: to_string(server[:bgp_id]),
                   name: to_string(server[:bgp_id]),
-                  value: "AS" <> to_string(server[:asn]),
+                  value: server[:server] |> Module.split() |> List.last(),
                   symbolSize: 10
                 }
               end),
@@ -93,19 +90,20 @@ defmodule BGPDemoWeb.BGP.IndexLive do
     target = to_string(peer)
 
     option =
-      if source != target do
-        update_in(socket.assigns.option, [:series, Access.at(0), :edges], fn edges ->
-          [
-            %{source: source, target: target, value: state}
-            | Enum.reduce(edges, [], fn
-                %{source: ^source, target: ^target}, acc -> acc
-                link, acc -> [link | acc]
-              end)
-          ]
-        end)
-      else
-        socket.assigns.option
-      end
+      update_in(socket.assigns.option, [:series, Access.at(0), :edges], fn edges ->
+        [
+          %{
+            source: source,
+            target: target,
+            value: state |> to_string() |> String.upcase(),
+            label: %{show: true}
+          }
+          | Enum.reduce(edges, [], fn
+              %{source: ^source, target: ^target}, acc -> acc
+              link, acc -> [link | acc]
+            end)
+        ]
+      end)
 
     {:noreply, assign(socket, :option, option)}
   end
