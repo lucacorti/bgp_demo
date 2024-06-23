@@ -2,14 +2,14 @@ import Config
 
 config :bgp_demo, BGPDemo.ASN65536A,
   asn: 65_536,
-  bgp_id: "172.16.1.3",
+  bgp_id: "172.16.1.2",
   networks: ["12.12.0.0/20"],
   port: 179,
   peers: [
     [
       asn: 65_536,
-      bgp_id: "172.16.1.2",
-      host: "172.16.1.2",
+      bgp_id: "172.16.1.3",
+      host: "172.16.1.3",
       transport: BGP.Server.Session.Transport.Process,
       transport_opts: [server: BGPDemo.ASN65536B]
     ],
@@ -31,16 +31,16 @@ config :bgp_demo, BGPDemo.ASN65536A,
 
 config :bgp_demo, BGPDemo.ASN65536B,
   asn: 65_536,
-  bgp_id: "172.16.1.2",
+  bgp_id: "172.16.1.3",
   networks: ["12.12.0.0/20"],
   port: 180,
   peers: [
     [
       asn: 65_536,
-      bgp_id: "172.16.1.3",
-      host: "172.16.1.3",
+      bgp_id: "172.16.1.2",
+      host: "172.16.1.2",
       transport: BGP.Server.Session.Transport.Process,
-      transport_opts: [server: BGPDemo.ASN65536B]
+      transport_opts: [server: BGPDemo.ASN65536A]
     ],
     [
       asn: 64_496,

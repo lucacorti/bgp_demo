@@ -19,7 +19,8 @@ defmodule BGPDemo.MixProject do
   def application do
     [
       mod: {BGPDemo.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications:
+        [:logger, :runtime_tools] ++ if(Mix.env() == :dev, do: [:observer, :wx], else: [])
     ]
   end
 
