@@ -18,7 +18,7 @@ defmodule BGPDemoWeb.Router do
     pipe_through :browser
 
     scope "/bgp", BGP do
-      live_session :looking_glass do
+      live_session :looking_glass, layout: {BGPDemoWeb.Layouts, :root} do
         live "/", IndexLive
       end
     end

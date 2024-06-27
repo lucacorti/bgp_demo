@@ -8,16 +8,15 @@ defmodule BGPDemoWeb.BGP.IndexLive do
   def render(assigns) do
     ~H"""
     <div id="bgp_demo" class="h-dvh" phx-hook="Chart">
-      <div id="bgp_demo-chart" class="h-full w-full" phx-update="ignore" />
+      <div id="bgp_demo-chart" class="h-dvh" phx-update="ignore" />
       <div id="bgp_demo-data" hidden><%= Jason.encode!(@option) %></div>
     </div>
+    <.button phx-click="start" class="absolute bottom-4 left-4">Start</.button>
     """
   end
 
   @impl Phoenix.LiveView
   def mount(_params, _session, socket) do
-    servers = Enum.map(@servers, &BGP.Server.get_config/1)
-
     if connected?(socket) do
       :telemetry.attach(
         "bgp-simulation",
@@ -25,9 +24,9 @@ defmodule BGPDemoWeb.BGP.IndexLive do
         &__MODULE__.telemetry_handler/4,
         %{dest: self()}
       )
-
-      for server <- servers, do: BGP.Server.start_link(server[:server])
     end
+
+    servers = Enum.map(@servers, &BGP.Server.get_config/1)
 
     option =
       %{
@@ -79,6 +78,12 @@ defmodule BGPDemoWeb.BGP.IndexLive do
   end
 
   @impl Phoenix.LiveView
+  def handle_event("start", _params, socket) do
+    for server <- @servers, do: BGP.Server.start_link(server)
+    {:noreply, socket}
+  end
+
+  @impl Phoenix.LiveView
   def handle_info(
         {[:bgp, :session, :state], %{state: state}, %{peer: peer, server: server}},
         socket
@@ -111,10 +116,6 @@ defmodule BGPDemoWeb.BGP.IndexLive do
       end)
 
     {:noreply, assign(socket, :option, option)}
-  end
-
-  def handle_info(_msg, socket) do
-    {:noreply, socket}
   end
 
   @doc false
