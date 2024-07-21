@@ -1,6 +1,7 @@
 defmodule BGPDemoWeb.BGP.IndexLive do
-  require Logger
   use BGPDemoWeb, :live_view
+
+  require Logger
 
   @servers [BGPDemo.ASN64496A, BGPDemo.ASN64496B, BGPDemo.ASN65536A, BGPDemo.ASN65536B]
 
