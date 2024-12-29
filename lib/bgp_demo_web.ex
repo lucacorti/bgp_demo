@@ -43,7 +43,7 @@ defmodule BGPDemoWeb do
         layouts: [html: BGPDemoWeb.Layouts]
 
       import Plug.Conn
-      import BGPDemoWeb.Gettext
+      use Gettext, backend: BGPDemoWeb.Gettext
 
       unquote(verified_routes())
     end
@@ -85,7 +85,7 @@ defmodule BGPDemoWeb do
       import Phoenix.HTML
       # Core UI components and translation
       import BGPDemoWeb.CoreComponents
-      import BGPDemoWeb.Gettext
+      use Gettext, backend: BGPDemoWeb.Gettext
 
       # Shortcut for generating JS commands
       alias Phoenix.LiveView.JS

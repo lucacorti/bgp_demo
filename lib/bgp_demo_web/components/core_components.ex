@@ -19,7 +19,7 @@ defmodule BGPDemoWeb.CoreComponents do
   alias Phoenix.HTML.Form
   alias Phoenix.LiveView.JS
 
-  import BGPDemoWeb.Gettext
+  use Gettext, backend: BGPDemo.Gettext
 
   @doc """
   Renders a modal.
