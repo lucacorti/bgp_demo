@@ -10,7 +10,7 @@ defmodule BGPDemoWeb.BGP.IndexLive do
     ~H"""
     <div id="bgp_demo" class="h-dvh" phx-hook="Chart">
       <div id="bgp_demo-chart" class="h-dvh" phx-update="ignore" />
-      <div id="bgp_demo-data" hidden><%= Jason.encode!(@option) %></div>
+      <div id="bgp_demo-data" hidden>{Jason.encode!(@option)}</div>
     </div>
     <.button phx-click="start" class="absolute bottom-4 left-4">Start</.button>
     """
